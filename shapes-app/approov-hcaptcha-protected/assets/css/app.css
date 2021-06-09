@@ -1,0 +1,58 @@
+.approov-primary-background-color {
+    background-color: #8cc63f;
+}
+
+.approov-secondary-background-color {
+    background-color: #dfe8f0;
+}
+
+.approov-secondary-text-color {
+    color: #dfe8f0;
+}
+
+#shape {
+    width: 16rem;
+    height: 16rem;
+    margin: auto;
+}
+
+.shape-circle {
+    background-image: url('./../img/circle.png');
+    background-repeat: no-repeat;
+}
+
+.shape-rectangle {
+    background-image: url('./../img/rectangle.png');
+    background-repeat: no-repeat;
+}
+
+.shape-square {
+    background-image: url('./../img/square.png');
+    background-repeat: no-repeat;
+}
+
+.shape-triangle {
+    background-image: url('./../img/triangle.png');
+    background-repeat: no-repeat;
+}
+
+#profile-section {
+    height: 300px;
+}
+
+#profile-section-banner-bottom {
+    height: 70px;
+}
+
+#profile-section-logo {
+    max-width: 300px;
+    margin-left: -6rem;
+}
+
+#profile-section-logo img {
+    max-width: 150px;
+}
+
+#profile-section-header {
+    height: 28rem;
+}

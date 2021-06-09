@@ -1,0 +1,66 @@
+version: "2.3"
+
+services:
+
+  # Service for localhost development
+  local:
+    build:
+      context: .
+      args:
+        APPROOV_SITE_KEY: "${APPROOV_SITE_KEY? Missing env var APPROOV_SITE_KEY}"
+        HCAPTCHA_SITE_KEY: "${HCAPTCHA_SITE_KEY? Missing env var HCAPTCHA_SITE_KEY}"
+    image: ${DOCKER_IMAGE? Missing env var for DOCKER_IMAGE}
+    volumes:
+      - ./nginx/nginx-behind-traefik.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d/local.conf:/etc/nginx/conf.d/default.conf
+      - ./shapes-app:/usr/share/nginx/html
+    ports:
+      - 8000:8000 # needs to match the port in nginx/conf.d/local.conf
+
+    networks:
+      - default
+
+  # Service to develop in an online server behind Traefik
+  dev:
+    build:
+      context: .
+      args:
+        APPROOV_SITE_KEY: "${APPROOV_SITE_KEY}"
+        HCAPTCHA_SITE_KEY: "${HCAPTCHA_SITE_KEY}"
+    image: ${DOCKER_IMAGE? Missing env var for DOCKER_IMAGE}
+    volumes:
+      - ./nginx/nginx-behind-traefik.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d/dev.conf:/etc/nginx/conf.d/default.conf
+      - ./shapes-app:/usr/share/nginx/html
+    networks:
+      - traefik
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=${PUBLIC_DOMAIN? Missing env var PUBLIC_DOMAIN}"
+      - "traefik.docker.network=traefik"
+      - "traefik.port=80" # needs to match the port in nginx/conf.d/dev.conf
+      - "traefik.frontend.rule=Host:${PUBLIC_DOMAIN}"
+
+  # Service to run the Quickstart as a production demo
+  prod:
+    build:
+      context: .
+      args:
+        APPROOV_SITE_KEY: "${APPROOV_SITE_KEY}"
+        HCAPTCHA_SITE_KEY: "${HCAPTCHA_SITE_KEY}"
+    image: ${DOCKER_IMAGE? Missing env var for DOCKER_IMAGE}
+    restart: unless-stopped
+    networks:
+      - traefik
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=${PUBLIC_DOMAIN? Missing env var PUBLIC_DOMAIN}"
+      - "traefik.docker.network=traefik"
+      - "traefik.port=80" # needs to match the port in nginx/conf.d/prod.conf
+      - "traefik.frontend.rule=Host:${PUBLIC_DOMAIN}"
+
+networks:
+  traefik:
+    external: true

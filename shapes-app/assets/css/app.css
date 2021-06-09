@@ -1,0 +1,37 @@
+.approov-primary-background-color {
+    background-color: #236ba4;
+}
+
+.approov-secondary-background-color {
+    background-color: #dfe8f0;
+}
+
+.approov-secondary-text-color {
+    color: #dfe8f0;
+}
+
+.approov-logo-green-background {
+    background-color: #8cc63f
+}
+
+#profile-section {
+    height: 300px;
+}
+
+#profile-section-banner-bottom {
+    height: 70px;
+}
+
+#profile-section-logo {
+    max-width: 300px;
+    margin-left: -6rem;
+}
+
+#profile-section-logo img {
+    max-width: 150px;
+}
+
+#profile-section-header {
+    height: 140px;
+}
+

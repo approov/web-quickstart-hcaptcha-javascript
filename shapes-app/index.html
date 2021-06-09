@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <title>Approov hCaptcha Quickstart</title>
+    <link rel="shortcut icon" href="./assets/img/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="./assets/img/icons/icon-72x72.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="manifest" href="manifest.json">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/app.css">
+  </head>
+  <body class="text-gray-800 antialiased bg-gray-100">
+    <nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 "
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between sm:w-auto sm:static sm:block sm:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-1 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            ><h1>Approov hCaptcha Quickstart</h1>
+          </a>
+          <button
+            id="toggle-navbar"
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block sm:hidden outline-none focus:outline-none"
+            type="button"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="md:flex flex-grow items-center bg-white md:bg-transparent lg:bg-transparent shadow-xl rounded-lg md:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col md:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="text-gray-800 md:text-white lg:text-white md:hover:text-gray-300 px-3 py-4 md:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/web-quickstart-hcaptcha-javascript"
+                title="Approov hCaptcha - Quickstart Guide"
+                ><i
+                  class="text-gray-500 sm:text-white far fa-file-alt text-xl leading-xl mr-2"
+                ></i>
+                Quickstart Guide
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col md:flex-row list-none md:ml-auto">
+            <li class="flex items-center">
+              <a
+                class="text-gray-800 md:text-white lg:text-white md:hover:text-gray-300 px-3 py-4 md:py-2 flex items-center text-md uppercase font-bold"
+                href="https://www.linkedin.com/company/criticalblue/"
+                ><i
+                  class="text-gray-500 md:text-white lg:text-white fab fa-linkedin text-xl leading-xl "
+                ></i
+                ><span class="md:hidden inline-block ml-2">Linkedin</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="text-gray-800 md:text-white md:hover:text-gray-300 px-3 py-4 md:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://twitter.com/approov_io"
+                ><i
+                  class="text-gray-500 md:text-white lg:text-white fab fa-twitter text-xl leading-xl "
+                ></i
+                ><span class="md:hidden inline-block ml-2">Tweet</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="md:text-white md:text-white md:hover:text-gray-300 text-gray-800 px-3 py-4 md:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/approov"
+                ><i
+                  class="text-gray-500 md:text-white lg:text-white fab fa-github text-xl leading-xl "
+                ></i
+                ><span class="md:hidden inline-block ml-2">Github</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="profile-page">
+      <section id="profile-section" class="relative block">
+        <div class="absolute top-0 w-full h-full bg-center bg-cover">
+          <span
+            class="w-full h-full absolute approov-primary-background-color"
+          ></span>
+        </div>
+        <div
+          id="profile-section-banner-bottom"
+          class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
+        >
+          <svg
+            class="absolute bottom-0 overflow-hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            version="1.1"
+            viewBox="0 0 2560 100"
+            x="0"
+            y="0"
+          >
+            <polygon
+              class="approov-secondary-text-color fill-current"
+              points="2560 0 2560 100 0 100"
+            ></polygon>
+          </svg>
+        </div>
+      </section>
+      <section class="relative pt-20 pb-2">
+        <div class="container mx-auto px-4">
+          <div
+            class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64"
+          >
+            <div class="px-6">
+              <div class="flex flex-wrap justify-center">
+                <div class="w-full lg:w-3/12 px-4 flex justify-center">
+                  <div class="relative">
+                    <div
+                      id="profile-section-logo"
+                      class="shadow-xl bg-white rounded-full h-auto align-middle border-none absolute p-6 -m-16 -ml-24"
+                      >
+                    <img
+                      alt="..."
+                      src="./assets/img/approov-logo.png"
+                    />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pt-4">
+                <a href="/"><i class="fas fa-home"></i></a>
+              </div>
+              <div id="profile-section-header" class="text-center mt-16">
+                <h3
+                  class="text-4xl font-semibold leading-normal mb-2 text-gray-800 mb-2"
+                >
+                  Shapes App
+                </h3>
+                <div id="app-body" class="mb-2 text-gray-700 mt-10">
+                  <div id="start-app">Choose one Web App to start...</div>
+                </div>
+              </div>
+              <div class="mt-10 py-4 border-t border-gray-300">
+                <div class="flex flex-wrap justify-center">
+                  <div class="py-4 px-2 mt-0">
+                    <a href="./unprotected"
+                        class="bg-red-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                      >
+                      Unprotected
+                    </a>
+                  </div>
+
+                  <div class="py-4 px-2 mt-0">
+                    <a href="/hcaptcha-protected"
+                        class="bg-yellow-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                      >
+                      hCaptcha Protected
+                    </a>
+                  </div>
+
+                  <div class="py-4 px-2 mt-0">
+                    <a href="/approov-hcaptcha-protected"
+                        class="approov-logo-green-background active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                      >
+                      Approov hCaptcha Protected
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="relative pb-4">
+        <div class="container mx-auto">
+          <h4 class="text-center">Read this <a class="text-blue-600" href="https://github.com/approoov/web-quickstart-hcaptcha-javascript">quickstart guide</a> to learn how to integrate hCaptcha with Approov in a web app</h4>
+        </div>
+      </section>
+    </main>
+    <footer class="relative pt-4 pb-2 approov-secondary-background-color">
+
+      <div class="container mx-auto px-4">
+        <div class="flex flex-wrap">
+          <div class="w-full sm:w-7/12 px-0">
+            <h4 class="text-3xl font-semibold">Let's keep in touch!</h4>
+            <h5 class="text-lg mt-0 mb-2 text-gray-700">
+              Find us on any of these platforms...
+            </h5>
+            <div class="mt-4">
+              <a href="https://www.linkedin.com/company/criticalblue/">
+                <button
+                  class="bg-white text-blue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+                  type="button"
+                ><i class="flex fab fa-linkedin"></i></button>
+              </a>
+              <a href="https://twitter.com/approov_io">
+                <button
+                  class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+                  type="button"
+                ><i class="flex fab fa-twitter"></i></button>
+              </a>
+              <a href="https://github.com/approov">
+                <button
+                  class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+                  type="button"
+                ><i class="flex fab fa-github"></i></button>
+              </a>
+            </div>
+          </div>
+          <div class="w-full mt-4 sm:w-4/12 px-0">
+            <div class="flex flex-wrap items-top mb-6">
+              <div class="w-full lg:w-4/12 px-4 ml-auto">
+                <span
+                  class="block uppercase text-gray-900 text-sm font-semibold mb-2"
+                  >Useful Links</span
+                >
+                <ul class="list-unstyled">
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="https://approov.io/company"
+                      >About Us</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="https://approov.io/docs"
+                      >Docs</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="https://blog.approov.io"
+                      >Blog</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="https://approov.io/resource"
+                      >Resources</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href="https://approov.io/contact"
+                      >Contact Us</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+  <script type="text/javascript" src="./assets/js/app.js"></script>
+</html>

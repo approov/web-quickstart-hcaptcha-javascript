@@ -2,11 +2,11 @@
 
 [Approov](https://approov.io) is an API security solution used to verify that requests received by your API services originate from trusted versions of your apps. The core Approov product is targeted at mobile apps, however, we provide several integrations with 3rd party web protection solutions so that a single back-end Approov check can be used to authorize API access. This quickstart shows how to use the integration with hCaptcha to add Approov tokens to your API calls.
 
-hCaptcha is a popular service for determining if a browser is being operated by a human. A browser first retrieves a token from the hCaptcha API which is then passed to the protected API as part of a request. A query, from the protected API, obtains the full set of results associated with the token and uses this to determine whether to accept or reject its request. hCaptcha also provides further configuration options which extend the capabilities and/or customize behavior. For an overview of all enterprise level features, you should check out [botstop.com](https://botstop.com).
+[hCaptcha](https://www.hcaptcha.com/) is a popular service for determining if a browser is being operated by a human. A browser first retrieves a token from the hCaptcha API which is then passed to the protected API as part of a request. A query, from the protected API, obtains the full set of results associated with the token and uses this to determine whether to accept or reject its request. hCaptcha also provides further configuration options which extend the capabilities and/or customize behavior. For an overview of all enterprise level features, you should check out [botstop.com](https://botstop.com).
 
-Note that, hCaptcha web protection does not solve the same issue as [Approov mobile app attestation](https://approov.io/product) which provides a very strong indication that a request originates from an untampered instance of your app. However, for APIs that are used by both the mobile and web channels, a single check to grant access, simplifies the overall access control implementation. Approov's integration with hCaptcha requires that the backend first check that an Approov token is present and that it is correctly signed. Subsequently, the token claims can be read to differentiate between requests coming from the mobile or web channels and to apply any associated restrictions. If required, the full response from the hCaptcha check can be embedded in the Approov token to be used by that logic. We still recommend that you restrict critical API endpoints to only work from the Mobile App.
+Note that, hCaptcha web protection does not solve the same issue as [Approov mobile app attestation](https://approov.io/product) which provides a very strong indication that a request can be trusted. However, for APIs that are used by both the mobile and web channels, a single check to grant access, simplifies the overall access control implementation. Approov's integration with hCaptcha requires that the backend first check that an Approov token is present and that it is correctly signed. Subsequently, the token claims can be read to differentiate between requests coming from the mobile or web channels and to apply any associated restrictions. If required, the full response from the hCaptcha check can be embedded in the Approov token to be used by that logic. We still recommend that you restrict critical API endpoints to only work from the Mobile App.
 
-This quickstart provides a step-by-step guide to integrating hCaptcha with Approov in a web app using a simple demo API backend for obtaining a random shape. The integration uses plain Javascript without using any libraries or SDKs. As such, you should be able to use it directly or easily port it to your preferred web framework or library.
+This quickstart provides a step-by-step guide to integrating hCaptcha with Approov in a web app using a simple demo API backend for obtaining a random shape. The integration uses plain Javascript without using any libraries or SDKs except those providing the hCaptcha integration. As such, you should be able to use it directly or easily port it to your preferred web framework or library.
 
 If you are looking for another Approov integration you can check our list of [quickstarts](https://approov.io/docs/latest/approov-integration-examples/backend-api/), and if you don't find what you are looking for, then please let us know [here](https://approov.io/contact).
 
@@ -55,14 +55,14 @@ This is a brief overview of how the Approov cloud service and hCaptcha fit toget
 
 hCaptcha uses sophisticated machine learning models to tell humans and bots apart. This approach allows them to require less annoying tasks from users and therefore take less of their time.
 
-In the combined Approov/hCaptcha web flow, each API request made by the web app is handled such that:
+In the combined Approov/hCaptcha flow, each API request made by the web app is handled such that:
 
 * An hCaptcha token is fetched using the hCaptcha JS SDK
 * A web protection request is made to the Approov cloud service passing the hCaptcha token for verification
 * The Approov token returned from the Approov web protection request is added to the API request
 * The API request is made as usual by the web app
 
-The API backend, is always responsible for making the decision to accept or deny requests. This decision is never made by the client. In all flows using Approov, access is only granted if a valid Approov token is included with the request; the client (web app or mobile app) is unable to determine the validity of the token. Subsequent checks may further interrogate the contents of the Approov token and also check other credentials, such as user authorization, to further refine how a request should be handled.
+The API backend, is always responsible for making the decision to accept or deny requests. This decision is never made by the client. In all flows using Approov, access is only granted if a valid Approov token is included with the request; the client (web app or mobile app) is unable to determine the validity of the token. Subsequent checks may further interrogate the contents of the Approov token and also check other credentials, such as user authorization, to refine how a request should be handled.
 
 ### Approov Cloud Service
 
@@ -149,7 +149,7 @@ This contacts `https://shapes.approov.io/v1/shapes` to get a random shape.
 
 Although the Shapes API is very simple, 2 end-points, with some code in a web app to control presentation, it is sufficient to demonstrate the required changes. The starting point in a real world scenario is the same. An API, probably using Approov to protect the mobile channel, and either a new requirement to enable access from the web or a desire to simplify the existing access that uses hCaptcha to protect against scripts and bots. The code changes below assume the former and take you through the steps to add both hCaptcha and Approov to the Shapes web app.
 
-First, to simulate the web app working with an API enpoint protected with Approov tokens edit `shapes-app/unprotected/assets/js/app.js` and change the `API_VERSION` to `v2`, like this:
+First, to simulate the web app working with an API endpoint protected with Approov tokens edit `shapes-app/unprotected/assets/js/app.js` and change the `API_VERSION` to `v2`, like this:
 
 ```js
 const API_VERSION = "v2"
@@ -182,15 +182,17 @@ git diff --no-index shapes-app/unprotected/index.html shapes-app/approov-hcaptch
 git diff --no-index shapes-app/unprotected/assets/js/app.js shapes-app/approov-hcaptcha-protected/assets/js/app.js
 ```
 
+Overall, the changes required to add both these services are small.
+
 #### Load and Setup for the hCaptcha Script in the HTML markup
 
-Modify the `shapes-app/unprotected/index.html` file to load the hCaptcha JS SDK by adding the following markup after the `</title>` tag:
+Modify `shapes-app/unprotected/index.html` to load the hCaptcha JS SDK by adding the following markup after the `</title>` tag:
 
 ```text
 <script src="https://hcaptcha.com/1/api.js" async defer></script>
 ```
 
-Now we also need to bind the click event in the `HELLO` and `SHAPE` buttons to the hCaptcha script and have the `fetchHello` and `fecthShape` functions as the callbacks to receive the hCaptcha token.
+Now we also need to bind the click events in the `HELLO` and `SHAPE` buttons to the hCaptcha script and have the `fetchHello` and `fecthShape` functions as the callbacks to receive the hCaptcha token.
 
 Modify the file `shapes-app/unprotected/index.html` to add the necessary HTML changes for the `HELLO` and `SHAPE` buttons:
 
@@ -234,7 +236,7 @@ Now that we have made the hCaptcha script trigger off the click events in the `H
 
 #### Javascript changes to implement Approov with hCaptcha
 
-Modify the file `shapes-app/unprotected/assets/js/app.js` to remove the click handler registrations for the `HELLO` and `SHAPE` buttons from the `load` event handler. This just leaves the navbar click handler in that function:
+Modify the file `shapes-app/unprotected/assets/js/app.js` to remove the click handler registrations for the `HELLO` and `SHAPE` buttons from the `load` event handler which just leaves the navbar click handler in that function:
 
 ```js
 window.addEventListener('load', (event) => {
@@ -278,10 +280,9 @@ function fetchApproovToken(hCaptchaToken) {
       return response.text() // return the token on success
     })
 }
-
 ```
 
-To fetch an Approov token we need an hCaptcha token which is passed as an argument to the fetchHello and fetchShape callbacks.
+To fetch an Approov token we need an hCaptcha token which is passed as an argument to the `fetchHello` and `fetchShape` callbacks.
 
 For example, when the user clicks the `SHAPE` button, the event will be handled by the hCaptcha script. If an hCaptcha token is obtained then it will be passed to the callback function, `fetchShape`. We need to ensure that the hCaptcha token makes it into the `fetchApproovToken` call and we do that by passing it through the intervening functions: `makeApiRequest` and `addRequestHeaders`.
 
@@ -332,7 +333,7 @@ function fetchShape(hCaptchaToken) {
 }
 ```
 
-Note that the switch from the hCaptcha flow to the Approov flow requires only minor changes to the handling of the `hCaptchaToken` variable. We would expect the same small changes to be required in your website at each point you construct requests that include an hCaptcha token. Depending on how your API calls are constructed, you may be able to make changes so that `fetchApproovToken` is called from a single point.
+Note that, in the case you are migrating from an hCaptcha flow to an Approov flow, the changes are very minor. We would expect the same small changes to be required in your website at each point you construct requests that include an hCaptcha token. Depending on how your API calls are constructed, you may be able to make changes so that `fetchApproovToken` is called from a single point.
 
 Before you can run the code it's necessary to obtain values for the placeholders, as described in the next section.
 
@@ -432,9 +433,9 @@ get-content shapes-app\unprotected\index.html | %{$_ -replace "___APPROOV_SITE_K
 
 ## RUNNING THE SHAPES WEB APP WITH APPROOV AND HCAPTCHA
 
-Now, that we have completed the integration of hCaptcha with Approov into the unprotected Shapes web app it's time to test it again.
+Now that we have completed the integration of hCaptcha with Approov into the unprotected Shapes web app, it's time to test it again.
 
-Refresh the browser with `ctrl + F5` and then click in the `SHAPES` button and this time instead of a bad request we should get a shape, because we are now issuing the API request with a valid Approov token:
+Refresh the browser with `ctrl + F5` and then click on the `SHAPES` button and this time, instead of a bad request, we should get a shape:
 
 <p>
   <img src="/readme-images/protected-v2-shape-page.png" width="480" title="Shapes protected web app Shape page">
@@ -445,7 +446,7 @@ Refresh the browser with `ctrl + F5` and then click in the `SHAPES` button and t
 
 ## WHAT IF I DON'T GET SHAPES
 
-This can be due to a lot of different causes, but usually is due to a typo, missing one of the steps or executing one of the steps incorrectly, but we will give you through the most probable causes.
+This can be due to a lot of different causes, but usually is due to a typo, missing one of the steps or executing one of the steps incorrectly, but we will take you through the most probable causes.
 
 ### Browser Developer Tools
 
@@ -457,9 +458,9 @@ If during `localhost` development you see `CORS` errors for any `hcatpcha` domai
 
 ### hCaptcha Script
 
-In the `shapes-app/unprotected/index.html` file check that you are correctly:
+In `shapes-app/unprotected/index.html`, check that you are correctly:
 
-* loading the hCaptcha script after the closing `</title>` tag.
+* loading the hCaptcha SDK after the closing `</title>` tag.
 * adding the required attributes to the `<button ...>` HTML tag
 
 ### hCaptcha Site key
@@ -476,7 +477,7 @@ Check that you are using the correct Approov site key:
 
 ### Shapes API Domain
 
-Check that you have added with the Approov CLI the `shapes.approov.io` API with web protection enabled.
+Check that you have added the the `shapes.approov.io` API registered in your account. Use the following Approov CLI command and ensure the API is listed with web protection enabled.
 
 ```text
 approov api -list
@@ -532,7 +533,7 @@ approov token -check <approov-token-here>
 
 In the output of the above command look for the [embed](https://approov.io/docs/latest/approov-usage-documentation/#approov-embed-token-claim-for-hCaptcha) claim that contains the response details for the hCaptcha token.
 
-Example of the `embed` claim present in an Approov token:
+Example of an Approov web protection token containing an `embed` claim with partial hCaptcha results:
 
 ```json
 {

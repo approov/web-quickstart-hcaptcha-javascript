@@ -53,7 +53,7 @@ This is a brief overview of how the Approov cloud service and hCaptcha fit toget
 
 ### hCaptcha
 
-hCaptcha uses sophisticated machine learning models to tell humans and bots apart. This approach allows them to require less annoying tasks from users and therefore take less of their time.
+hCaptcha uses sophisticated machine learning models to tell humans and bots apart. This approach enables them to reduce the CAPTCHA friction for users and therefore improve the web experience.
 
 In the combined Approov/hCaptcha flow, each API request made by the web app is handled such that:
 

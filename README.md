@@ -607,7 +607,6 @@ If you wish to explore the Approov solution in more depth, then why not try one 
 
 * [Approov Free Trial](https://approov.io/signup) (no credit card needed)
 * [Approov QuickStarts](https://approov.io/docs/latest/approov-integration-examples/)
-* [Approov Live Demo](https://approov.io/product/demo)
 * [Approov Blog](https://blog.approov.io)
 * [Approov Docs](https://approov.io/docs)
   * [Metrics Graphs](https://approov.io/docs/latest/approov-usage-documentation/#metrics-graphs)

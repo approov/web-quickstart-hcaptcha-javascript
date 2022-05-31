@@ -618,7 +618,6 @@ If you wish to explore the Approov solution in more depth, then why not try one 
   * [Account Management](https://approov.io/docs/latest/approov-usage-documentation/#user-management)
 * [Approov Resources](https://approov.io/resource/)
 * [Approov Customer Stories](https://approov.io/customer)
-* [Approov Support](https://approov.zendesk.com/hc/en-gb/requests/new)
 * [About Us](https://approov.io/company)
 * [Contact Us](https://approov.io/contact)
 

@@ -346,7 +346,7 @@ To use Approov with hCaptcha in the web app we need a small amount of configurat
 
 ### Configure the API Domain with Web Protection
 
-First, we need to use the Approov CLI to register the API domain that will be protected and have it specifically enabled for [web protection](https://approov.io/docs/latest/approov-usage-documentation/#enable-web-protection-for-an-api). Note that all web-protection domains are also able to serve tokens for the mobile channel. Run the following CLI command to add or update the configuration for the shapes API:
+First, we need to use the Approov CLI to register the API domain that will be protected and have it specifically enabled for [web protection](https://approov.io/docs/latest/approov-web-protection-integration/#enable-web-protection-for-an-api). Note that all web-protection domains are also able to serve tokens for the mobile channel. Run the following CLI command to add or update the configuration for the shapes API:
 
 ```text
 approov api -add shapes.approov.io -allowWeb
@@ -354,7 +354,7 @@ approov api -add shapes.approov.io -allowWeb
 
 ### Register hCaptcha with Approov
 
-To [configure](https://approov.io/docs/latest/approov-usage-documentation/#configure-approov-with-an-hcaptcha-site) Approov with an hCaptcha site you must first [register](https://www.hcaptcha.com/signup-interstitial) with the hCaptcha service.
+To [configure](https://approov.io/docs/latest/approov-web-protection-integration/#configure-approov-with-an-hcaptcha-site) Approov with an hCaptcha site you must first [register](https://www.hcaptcha.com/signup-interstitial) with the hCaptcha service.
 
 From the [hCaptcha Dashboard](https://dashboard.hcaptcha.com/sites?page=1) you can add a site and then copy the site key and the API key necessary to use the hCaptcha service.
 
@@ -364,7 +364,7 @@ If your site key and API key were `aaaaa12345` and `bbbbb12345` respectively the
 approov web -hCaptcha -add aaaaa12345 -secret bbbbb12345
 ```
 
-When the hCaptcha token is passed to an Approov web-protection server for verification it, in turn, calls out to the hCaptcha servers before performing its checks on the result. The default check simply ensures that the result passes and issues a valid Approov token in that case. Further command line options can be used to control how Approov handles hCaptcha web protection, see the [docs](https://approov.io/docs/latest/approov-usage-documentation/#configure-approov-with-an-hcaptcha-site) for details.
+When the hCaptcha token is passed to an Approov web-protection server for verification it, in turn, calls out to the hCaptcha servers before performing its checks on the result. The default check simply ensures that the result passes and issues a valid Approov token in that case. Further command line options can be used to control how Approov handles hCaptcha web protection, see the [docs](https://approov.io/docs/latest/approov-web-protection-integration/#configure-approov-with-an-hcaptcha-site) for details.
 
 ### Replace the Code Placeholders
 
@@ -517,7 +517,7 @@ This will open your Approov Grafana metrics homepage. From there you can select 
 
 If the Approov web protection server is unable to complete a request then it will respond with an error.
 
-See [here](https://approov.io/docs/latest/approov-usage-documentation/#troubleshooting-web-protection-errors) the complete list of possible errors that can be returned by the Approov web protection server.
+See [here](https://approov.io/docs/latest/approov-web-protection-integration/#troubleshooting-web-protection-errors) the complete list of possible errors that can be returned by the Approov web protection server.
 
 If the error is not displayed in the web page you may need to open the browser developer tools and inspect the json response payload for the request made to the Approov web protection server.
 
@@ -531,7 +531,7 @@ Open the browser developers tools and from the network tab grab the Approov toke
 approov token -check <approov-token-here>
 ```
 
-In the output of the above command look for the [embed](https://approov.io/docs/latest/approov-usage-documentation/#approov-embed-token-claim-for-hCaptcha) claim that contains the response details for the hCaptcha token.
+In the output of the above command look for the [embed](https://approov.io/docs/latest/approov-web-protection-integration/#approov-embed-token-claim-for-hCaptcha) claim that contains the response details for the hCaptcha token.
 
 Example of an Approov web protection token containing an `embed` claim with partial hCaptcha results:
 
@@ -615,7 +615,6 @@ If you wish to explore the Approov solution in more depth, then why not try one 
   * [Manage Devices](https://approov.io/docs/latest/approov-usage-documentation/#managing-devices)
   * [Service Monitoring](https://approov.io/docs/latest/approov-usage-documentation/#service-monitoring)
   * [Automated Approov CLI Usage](https://approov.io/docs/latest/approov-usage-documentation/#automated-approov-cli-usage)
-  * [Offline Security Mode](https://approov.io/docs/latest/approov-usage-documentation/#offline-security-mode)
   * [SafetyNet Integration](https://approov.io/docs/latest/approov-usage-documentation/#google-safetynet-integration)
   * [Account Management](https://approov.io/docs/latest/approov-usage-documentation/#user-management)
 * [Approov Resources](https://approov.io/resource/)

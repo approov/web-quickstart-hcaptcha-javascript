@@ -477,7 +477,7 @@ Check that you are using the correct Approov site key:
 
 ### Shapes API Domain
 
-Check that you have added the the `shapes.approov.io` API registered in your account. Use the following Approov CLI command and ensure the API is listed with web protection enabled.
+Check that you have added the `shapes.approov.io` API registered in your account. Use the following Approov CLI command and ensure the API is listed with web protection enabled.
 
 ```text
 approov api -list

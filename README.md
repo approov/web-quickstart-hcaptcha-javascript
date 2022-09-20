@@ -8,8 +8,6 @@ Note that, hCaptcha web protection does not solve the same issue as [Approov mob
 
 This quickstart provides a step-by-step guide to integrating hCaptcha with Approov in a web app using a simple demo API backend for obtaining a random shape. The integration uses plain Javascript without using any libraries or SDKs except those providing the hCaptcha integration. As such, you should be able to use it directly or easily port it to your preferred web framework or library.
 
-If you are looking for another Approov integration you can check our list of [quickstarts](https://approov.io/docs/latest/approov-integration-examples/backend-api/), and if you don't find what you are looking for, then please let us know [here](https://approov.io/contact).
-
 
 ## TOC - Table of Contents
 
@@ -571,7 +569,7 @@ The Shapes example app uses the API endpoint `https://shapes.approov.io/v2/shape
 
 If you want to integrate Approov into your own web app you will need to [integrate](https://approov.io/docs/latest/approov-usage-documentation/#backend-integration) an Approov token check in the backend. Since the Approov token is simply a standard [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) this is usually straightforward.
 
-Check the [Backend integration](https://approov.io/docs/latest/approov-integration-examples/backend-api/) examples that provide a detailed walk-through for specific programming languages and frameworks.
+Check the [Backend API Quickstarts](https://approov.io/resource/quickstarts/#backend-api-quickstarts) examples that provide a detailed walk-through for specific programming languages and frameworks.
 
 [TOC](#toc-table-of-contents)
 
@@ -606,7 +604,7 @@ You can check the Content Security Policy for your site [here](https://csp-evalu
 If you wish to explore the Approov solution in more depth, then why not try one of the following links as a jumping off point:
 
 * [Approov Free Trial](https://approov.io/signup) (no credit card needed)
-* [Approov QuickStarts](https://approov.io/docs/latest/approov-integration-examples/)
+* [Approov QuickStarts](https://approov.io/resource/quickstarts)
 * [Approov Blog](https://blog.approov.io)
 * [Approov Docs](https://approov.io/docs)
   * [Metrics Graphs](https://approov.io/docs/latest/approov-usage-documentation/#metrics-graphs)

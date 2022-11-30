@@ -1,63 +1,74 @@
+import { Approov, ApproovError, ApproovFetchError, ApproovServiceError, ApproovSessionError } from "./approov.js"
+
 window.addEventListener('load', (event) => {
   const navbar = document.getElementById('toggle-navbar')
   navbar.addEventListener('click', (event) => toggleNavbar('example-collapse-navbar'))
+
+  const helloButton = document.getElementById('hello-button')
+  helloButton.addEventListener('click', (event) => fetchHello())
+
+  const shapeButton = document.getElementById('shape-button')
+  shapeButton.addEventListener('click', (event) => fetchShape())
 })
 
 const API_VERSION = "v2"
 const API_DOMAIN = "shapes.approov.io"
 const API_BASE_URL = "https://" + API_DOMAIN
-const APPROOV_ATTESTER_URL = 'https://web-1.approovr.io/attest'
+const API_KEY = "yXClypapWNHIifHUWmBIyPFAm"
+const APPROOV_ATTESTER_DOMAIN = 'web-1.approovr.io'
 
 // Check the Dockerfile to see how place holders are replaced during the
 // Docker image build.
 const APPROOV_SITE_KEY = '___APPROOV_SITE_KEY___'
 const HCAPTCHA_SITE_KEY = '___HCAPTCHA_SITE_KEY___'
 
-// The hcaptcha token needs to be retrieved each time we want to make a
-// API request with an Approov Token.
-function fetchApproovToken(hCaptchaToken) {
-  const params = new URLSearchParams()
-
-  // Add it like `example.com` not as `https://example.com`.
-  params.append('api', API_DOMAIN)
-  params.append('approov-site-key', APPROOV_SITE_KEY)
-  params.append('hcaptcha-site-key', HCAPTCHA_SITE_KEY)
-  params.append('hcaptcha-token', hCaptchaToken)
-
-  return fetch(APPROOV_ATTESTER_URL, {
-      method: 'POST',
-      body: params
-    })
-    .then(response => {
-      if (!response.ok) {
-        console.debug('Approov token fetch failed: ', response)
-        throw new Error('Failed to fetch an Approov Token') // reject with a throw on failure
-      }
-
-      return response.text() // return the token on success
-    })
+async function getHcaptchaToken() {
+  return hcaptcha.execute({async: true})
 }
 
-function addRequestHeaders(hCaptchaToken) {
-  return fetchApproovToken(hCaptchaToken)
-    .then(approovToken => {
-      return new Headers({
-        'Accept': 'application/json',
-        'Approov-Token': approovToken
-      })
+async function fetchToken(api) {
+  try {
+    Approov.defaultAPI = api
+    let approovToken = await Approov.fetchToken(api, {})
+    return approovToken
+  } catch(error) {
+    console.log('Approov error: ' + JSON.stringify(error))
+    await Approov.initializeSession({
+      approovHost: APPROOV_ATTESTER_DOMAIN,
+      approovSiteKey: APPROOV_SITE_KEY,
+      hcaptchaSiteKey: HCAPTCHA_SITE_KEY,
     })
+    const hcaptchaToken = await getHcaptchaToken()
+    let approovToken = await Approov.fetchToken(api, {hcaptchaToken: hcaptchaToken})
+    return approovToken
+  }
 }
 
-function makeApiRequest(path, hCaptchaToken) {
+async function addRequestHeaders() {
+  let headers = new Headers({
+    'Accept': 'application/json', // fix the default being anything "*/*"
+    'Api-Key': API_KEY,
+  })
+  try {
+    let approovToken = await fetchToken(API_DOMAIN)
+    console.log('Approov token: ' + JSON.stringify(approovToken))
+    headers.append('Approov-Token', approovToken)
+  } catch(error) {
+    console.log(JSON.stringify(error))
+  }
+  return headers
+}
+
+function makeApiRequest(path) {
   hideFromScreen()
 
-  return addRequestHeaders(hCaptchaToken)
+  return addRequestHeaders()
     .then(headers => fetch(API_BASE_URL + '/' + path, { headers: headers }))
     .then(response => handleApiResponse(response))
 }
 
-function fetchHello(hCaptchaToken) {
-  makeApiRequest(API_VERSION + '/hello', hCaptchaToken)
+function fetchHello() {
+  makeApiRequest(API_VERSION + '/hello')
     .then(data => {
       document.getElementById('start-app').classList.add("hidden")
       document.getElementById('hello').classList.remove("hidden")
@@ -65,8 +76,8 @@ function fetchHello(hCaptchaToken) {
     .catch(error => handleApiError('Fetch from ' + API_VERSION + '/hello failed', error))
 }
 
-function fetchShape(hCaptchaToken) {
-  makeApiRequest(API_VERSION + '/shapes', hCaptchaToken)
+function fetchShape() {
+  makeApiRequest(API_VERSION + '/shapes')
     .then(data => {
 
       if (data.status >= 400 ) {

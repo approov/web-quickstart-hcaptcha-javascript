@@ -12,12 +12,14 @@ window.addEventListener('load', (event) => {
 const API_VERSION = "v1"
 const API_DOMAIN = "shapes.approov.io"
 const API_BASE_URL = "https://" + API_DOMAIN
+const API_KEY = "yXClypapWNHIifHUWmBIyPFAm"
 
 function addRequestHeaders() {
   return new Promise(function(resolve, reject) {
     resolve(
       new Headers({
         'Accept': 'application/json',
+        'Api-Key': API_KEY,
       })
     )
   })

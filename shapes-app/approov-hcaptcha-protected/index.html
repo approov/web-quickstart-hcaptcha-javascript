@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="./assets/css/app.css">
   </head>
   <body class="text-gray-800 antialiased bg-gray-100">
+    <div class="h-captcha" data-sitekey="___HCAPTCHA_SITE_KEY___" data-size="invisible"></div>
     <nav
       class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 "
     >
@@ -169,10 +170,8 @@
                   <div class="py-4 px-8 mt-0">
                     <button
                       id="hello-button"
-                      class="h-captcha button-transition bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                      class="button-transition bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
                       type="button"
-                      data-sitekey="___HCAPTCHA_SITE_KEY___"
-                      data-callback='fetchHello'
                     >
                       Hello
                     </button>
@@ -181,10 +180,8 @@
                   <div class="py-4 px-8 mt-0">
                     <button
                       id="shape-button"
-                      class="h-captcha button-transition bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                      class="button-transition bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
                       type="button"
-                      data-sitekey="___HCAPTCHA_SITE_KEY___"
-                      data-callback='fetchShape'
                     >
                       Shape
                     </button>
@@ -282,5 +279,6 @@
       </div>
     </footer>
   </body>
-  <script type="text/javascript" src="./assets/js/app.js"></script>
+  <script type="module" src="./assets/js/approov.js"></script>
+  <script type="module" src="./assets/js/app.js"></script>
 </html>

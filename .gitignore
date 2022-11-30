@@ -1,1 +1,8 @@
 .env
+
+.DS_Store
+
+approov.dev.js
+approov.dev.js.map
+approov.js
+shapes-app/approov-hcaptcha-protected/assets/src/index.ts

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#000000" />
     <link rel="shortcut icon" href="./assets/img/favicon.ico" />
     <title>Approov hCaptcha Quickstart</title>
-    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <script src="https://hcaptcha.com/1/api.js" defer></script>
     <link
       rel="apple-touch-icon"
       sizes="72x72"
@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="./assets/css/app.css">
   </head>
   <body class="text-gray-800 antialiased bg-gray-100">
-    <div class="h-captcha" data-sitekey="___HCAPTCHA_SITE_KEY___" data-size="invisible"></div>
     <nav
       class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 "
     >
@@ -279,6 +278,13 @@
       </div>
     </footer>
   </body>
+  <!-- <div class="h-captcha" data-sitekey="HCAPTCHA_SITE_KEY" data-size="invisible"></div> -->
+  <script type="module" src="/config.js"></script>
+  <script type='module'>
+    import { HCAPTCHA_SITE_KEY } from "/config.js"
+    let hcaptchaDiv = '<div class="h-captcha" data-sitekey="' + HCAPTCHA_SITE_KEY + '" data-size="invisible"></div>'
+    document.body.insertAdjacentHTML('beforeend', hcaptchaDiv)
+  </script>
   <script type="module" src="./assets/js/approov.js"></script>
   <script type="module" src="./assets/js/app.js"></script>
 </html>

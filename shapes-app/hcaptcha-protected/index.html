@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <title>Approov hCaptcha Quickstart</title>
-    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <script src="https://hcaptcha.com/1/api.js" defer></script>
     <link rel="shortcut icon" href="./assets/img/favicon.ico" />
     <link
       rel="apple-touch-icon"
@@ -166,28 +166,37 @@
               </div>
               <div class="mt-2 py-2 border-t border-gray-300">
                 <div class="flex flex-wrap justify-center">
-                  <div class="py-4 px-8 mt-0">
-                    <button
-                      id="hello-button"
-                      class="h-captcha bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
-                      type="button"
-                      data-sitekey="___HCAPTCHA_SITE_KEY___"
-                      data-callback='fetchHello'
-                    >
-                      Hello
-                    </button>
+                  <script type="module" src="/config.js"></script>
+                  <div id="hello-button-wrapper" class="py-4 px-8 mt-0">
+                    <script type='module'>
+                      import { HCAPTCHA_SITE_KEY } from "/config.js"
+                      let helloButton = `<button
+                          id="hello-button"
+                          class="h-captcha bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                          type="button"
+                          data-sitekey="` + HCAPTCHA_SITE_KEY + `"
+                          data-callback='fetchHello'
+                        >
+                          Hello
+                        </button>`
+                      document.getElementById("hello-button-wrapper").insertAdjacentHTML('beforeend', helloButton)
+                    </script>
                   </div>
 
-                  <div class="py-4 px-8 mt-0">
-                    <button
-                      id="shape-button"
-                      class="h-captcha bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
-                      type="button"
-                      data-sitekey="___HCAPTCHA_SITE_KEY___"
-                      data-callback='fetchShape'
-                    >
-                      Shape
-                    </button>
+                  <div id="shape-button-wrapper" class="py-4 px-8 mt-0">
+                    <script type='module'>
+                      import { HCAPTCHA_SITE_KEY } from "/config.js"
+                      let shapeButton = `<button
+                          id="shape-button"
+                          class="h-captcha bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                          type="button"
+                          data-sitekey="` + HCAPTCHA_SITE_KEY + `"
+                          data-callback='fetchShape'
+                        >
+                          Shape
+                        </button>`
+                      document.getElementById("shape-button-wrapper").insertAdjacentHTML('beforeend', shapeButton)
+                    </script>
                   </div>
                 </div>
               </div>
@@ -282,5 +291,5 @@
       </div>
     </footer>
   </body>
-  <script type="text/javascript" src="./assets/js/app.js"></script>
+  <script type="module" src="./assets/js/app.js"></script>
 </html>

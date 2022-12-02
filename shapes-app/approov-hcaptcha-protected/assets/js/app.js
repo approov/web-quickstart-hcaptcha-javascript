@@ -1,3 +1,5 @@
+// See the Dockerfile for how place holders in config.js are replaced during the Docker image build.
+import { APPROOV_ATTESTER_DOMAIN, SHAPES_API_KEY, APPROOV_SITE_KEY, HCAPTCHA_SITE_KEY } from "/config.js"
 import { Approov, ApproovError, ApproovFetchError, ApproovServiceError, ApproovSessionError } from "./approov.js"
 
 window.addEventListener('load', (event) => {
@@ -14,19 +16,12 @@ window.addEventListener('load', (event) => {
 const API_VERSION = "v2"
 const API_DOMAIN = "shapes.approov.io"
 const API_BASE_URL = "https://" + API_DOMAIN
-const API_KEY = "yXClypapWNHIifHUWmBIyPFAm"
-const APPROOV_ATTESTER_DOMAIN = 'web-1.approovr.io'
-
-// Check the Dockerfile to see how place holders are replaced during the
-// Docker image build.
-const APPROOV_SITE_KEY = '___APPROOV_SITE_KEY___'
-const HCAPTCHA_SITE_KEY = '___HCAPTCHA_SITE_KEY___'
 
 async function getHcaptchaToken() {
   return hcaptcha.execute({async: true})
 }
 
-async function fetchToken(api) {
+async function fetchApproovToken(api) {
   try {
     Approov.defaultAPI = api
     let approovToken = await Approov.fetchToken(api, {})
@@ -47,10 +42,10 @@ async function fetchToken(api) {
 async function addRequestHeaders() {
   let headers = new Headers({
     'Accept': 'application/json', // fix the default being anything "*/*"
-    'Api-Key': API_KEY,
+    'Api-Key': SHAPES_API_KEY,
   })
   try {
-    let approovToken = await fetchToken(API_DOMAIN)
+    let approovToken = await fetchApproovToken(API_DOMAIN)
     console.log('Approov token: ' + JSON.stringify(approovToken))
     headers.append('Approov-Token', approovToken)
   } catch(error) {

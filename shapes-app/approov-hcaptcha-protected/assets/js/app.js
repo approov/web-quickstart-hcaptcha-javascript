@@ -23,11 +23,9 @@ async function getHcaptchaToken() {
 
 async function fetchApproovToken(api) {
   try {
-    Approov.defaultAPI = api
     let approovToken = await Approov.fetchToken(api, {})
     return approovToken
   } catch(error) {
-    console.log('Approov error: ' + JSON.stringify(error))
     await Approov.initializeSession({
       approovHost: APPROOV_ATTESTER_DOMAIN,
       approovSiteKey: APPROOV_SITE_KEY,

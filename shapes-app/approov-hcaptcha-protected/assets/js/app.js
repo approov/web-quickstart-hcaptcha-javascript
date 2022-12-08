@@ -1,4 +1,4 @@
-// See the Dockerfile for how place holders in config.js are replaced during the Docker image build.
+
 import { APPROOV_ATTESTER_DOMAIN, SHAPES_API_KEY, APPROOV_SITE_KEY, HCAPTCHA_SITE_KEY } from "/config.js"
 import { Approov, ApproovError, ApproovFetchError, ApproovServiceError, ApproovSessionError } from "./approov.js"
 
@@ -44,7 +44,6 @@ async function addRequestHeaders() {
   })
   try {
     let approovToken = await fetchApproovToken(API_DOMAIN)
-    console.log('Approov token: ' + JSON.stringify(approovToken))
     headers.append('Approov-Token', approovToken)
   } catch(error) {
     console.log(JSON.stringify(error))

@@ -192,7 +192,7 @@ In order to obtain a copy of the Approov web SDK please email a request to suppo
 
 Modify the `shapes-app/unprotected/index.html` file to load the Approov web SDK by adding this code after the HTML `</body>` tag:
 
-```text
+```html
   <script type="module" src="./assets/js/approov.js"></script>
 ```
 
@@ -205,6 +205,7 @@ Modify `shapes-app/unprotected/index.html` to load the hCaptcha Javascript SDK b
 ```
 
 Also insert the following code at the end of the document body, just after the `</body>` tag:
+
 ```html
   <script type="module" src="/config.js"></script>
   <script type='module'>
@@ -213,6 +214,7 @@ Also insert the following code at the end of the document body, just after the `
     document.body.insertAdjacentHTML('beforeend', hcaptchaDiv)
   </script>
 ```
+
 This loads the configuration and inserts an invisible document element, using the hCaptcha site key from the configuration, at the end of the document body for hCaptcha to render its widget.
 
 Modify the file `shapes-app/unprotected/assets/js/app.js` to import Approov and the configuration at the top of the file:
@@ -248,7 +250,7 @@ async function fetchApproovToken(api) {
 
 async function addRequestHeaders() {
   let headers = new Headers({
-    'Accept': 'application/json', // fix the default being anything "*/*"
+    'Accept': 'application/json',
     'Api-Key': SHAPES_API_KEY,
   })
   try {
@@ -288,7 +290,7 @@ From the [hCaptcha Dashboard](https://dashboard.hcaptcha.com/sites?page=1) you c
 If your site key and API key were `your-hCaptcha-site-key` and `your-hCaptcha-secret`, respectively, then the command to register it with Approov would look like this:
 
 ```text
-approov web -hCaptcha -add your-hCaptcha-site-key -secret your-hCaptcha-secret
+approov web -hcaptcha -add your-hCaptcha-site-key -secret your-hCaptcha-secret
 ```
 
 When the hCaptcha token is passed to an Approov web-protection server for verification it, in turn, calls out to the hCaptcha servers before performing its checks on the result. The default check simply ensures that the result passes and it issues a valid Approov token in that case. Further command line options can be used to control how Approov handles hCaptcha web protection, see the [docs](https://approov.io/docs/latest/approov-web-protection-integration/#configure-approov-with-an-hcaptcha-site) for details.
@@ -378,6 +380,8 @@ This can be due to a number of different causes, but usually is due to a typo, m
 Open the browser developer tools and check if you can see any errors in the console.
 
 If you find errors related with the `app.js` file then fix them and try again, but always remember to reload the page in the browser after updating a Javascript file.
+
+### hCaptcha SDK and Widget Container
 
 In `shapes-app/unprotected/index.html`, check that you are correctly loading the hCaptcha SDK after the closing `</title>` tag and that you include the div container for the hCaptcha widget after the document body.
 

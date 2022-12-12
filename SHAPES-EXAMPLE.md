@@ -1,10 +1,4 @@
-# Approov Web QuickStart: hCaptcha - Javascript
-
-[Approov](https://approov.io) is an API security solution used to verify that requests received by your API services originate from trusted versions of your apps. The core Approov product is targeted at mobile apps, however, we provide several integrations with 3rd party web protection solutions so that a single back-end Approov check can be used to authorize API access. This quickstart shows how to use the integration with hCaptcha to add Approov tokens to your API calls.
-
-[hCaptcha](https://www.hcaptcha.com/) is a popular service for determining if a browser is being operated by a human. A browser first retrieves a token from the hCaptcha API which is then passed to the protected API as part of a request. A query, from the protected API, obtains the full set of results associated with the token and uses this to determine whether to accept or reject its request. hCaptcha also provides further configuration options which extend the capabilities and/or customize behavior. For an overview of all enterprise level features, you should check out [botstop.com](https://botstop.com).
-
-Note that, hCaptcha web protection does not solve the same issue as [Approov mobile app attestation](https://approov.io/product) which provides a very strong indication that a request can be trusted. However, for APIs that are used by both the mobile and web channels, a single check to grant access, simplifies the overall access control implementation. Approov's integration with hCaptcha requires that the backend first check that an Approov token is present and that it is correctly signed. Subsequently, the token claims can be read to differentiate between requests coming from the mobile or web channels and to apply any associated restrictions. If required, the full response from the hCaptcha check can be embedded in the Approov token to be used by that logic. We still recommend that you restrict critical API endpoints to only work from the Mobile App.
+# Shapes Example
 
 This quickstart provides a step-by-step guide to integrating hCaptcha with Approov in a web app using a simple demo API backend for obtaining a random shape. The integration uses plain Javascript without using any libraries or SDKs except those providing the hCaptcha integration. As such, you should be able to use it directly or easily port it to your preferred web framework or library.
 
@@ -52,11 +46,11 @@ This is a brief overview of how the Approov cloud service and hCaptcha fit toget
 
 ### hCaptcha
 
-hCaptcha uses sophisticated machine learning models to tell humans and bots apart. This approach enables them to reduce the CAPTCHA friction for users and therefore improve the web experience.
+hCaptcha uses sophisticated machine learning models to tell humans and bots apart. This approach enables it to reduce the CAPTCHA friction for users and therefore improve the web experience.
 
 In the combined Approov/hCaptcha flow, each API request made by the web app is handled such that:
 
-* An hCaptcha token is fetched using the hCaptcha JS SDK
+* An hCaptcha token is fetched using the hCaptcha Javascript SDK
 * An Approov token fetch is performed, passing the hCaptcha token to the Approov cloud service for verification
 * The Approov service calls on the hCaptcha service to verify the hCaptcha token
 * The Approov token returned by the Approov service includes the verification result from the hCaptcha service
@@ -127,13 +121,13 @@ Now visit http://localhost:8000 and you should be able to see:
 
 Now that you have completed the deployment of the web app with one of your preferred web servers it is time to see how it works.
 
-In the home page you can see three buttons. Click in the `UNPROTECTED` button to see the unprotected Shapes web app:
+In the home page you can see three buttons. Click the `UNPROTECTED` button to see the unprotected Shapes web app:
 
 <p>
   <img src="/readme-images/unprotected-homepage.png" width="480" title="Shapes unprotected web app home page">
 </p>
 
-Click on the `HELLO` button and you should see this:
+Click the `HELLO` button and you should see this:
 
 <p>
   <img src="/readme-images/unprotected-hello-page.png" width="480" title="Shapes unprotected web app hello page">
@@ -157,7 +151,7 @@ First, to simulate the web app working with an API endpoint protected with Appro
 const API_VERSION = "v2"
 ```
 
-Now save the file and do a hard refresh in your browser with `ctrl + F5` (command-R on Mac), then hit the `SHAPE` button again and you should see this:
+Now save the file and do a hard refresh in your browser (`Ctrl + F5` on Windows or Linux, or `Command + Shift + R` on Mac), then hit the `SHAPE` button again and you should see this:
 
 <p>
   <img src="/readme-images/unprotected-v2-shape-page.png" width="480" title="Shapes unprotected web app V2 shape page">
@@ -215,7 +209,7 @@ Also insert the following code at the end of the document body, just after the `
   </script>
 ```
 
-This loads the configuration and inserts an invisible document element, using the hCaptcha site key from the configuration, at the end of the document body for hCaptcha to render its widget.
+This loads the configuration and inserts an invisible container element, using the hCaptcha site key from the configuration, at the end of the document body for hCaptcha to render its widget.
 
 Modify the file `shapes-app/unprotected/assets/js/app.js` to import Approov and the configuration at the top of the file:
 
@@ -234,17 +228,25 @@ async function getHcaptchaToken() {
 
 async function fetchApproovToken(api) {
   try {
+    // Try to fetch an Approov token
     let approovToken = await Approov.fetchToken(api, {})
     return approovToken
-  } catch(error) {
-    await Approov.initializeSession({
-      approovHost: APPROOV_ATTESTER_DOMAIN,
-      approovSiteKey: APPROOV_SITE_KEY,
-      hcaptchaSiteKey: HCAPTCHA_SITE_KEY,
-    })
-    const hcaptchaToken = await getHcaptchaToken()
-    let approovToken = await Approov.fetchToken(api, {hcaptchaToken: hcaptchaToken})
-    return approovToken
+  } catch (error) {
+    if (error instanceof ApproovSessionError) {
+      // If Approov has not been initialized or the Approov session has expired, initialize and start a new one
+      await Approov.initializeSession({
+        approovHost: APPROOV_ATTESTER_DOMAIN,
+        approovSiteKey: APPROOV_SITE_KEY,
+        hcaptchaSiteKey: HCAPTCHA_SITE_KEY,
+      })
+      // Get a fresh hCaptcha token
+      const hcaptchaToken = await getHcaptchaToken()
+      // Fetch the Approov token
+      let approovToken = await Approov.fetchToken(api, {hcaptchaToken: hcaptchaToken})
+      return approovToken
+    } else {
+      throw error
+    }
   }
 }
 
@@ -256,7 +258,7 @@ async function addRequestHeaders() {
   try {
     let approovToken = await fetchApproovToken(API_DOMAIN)
     headers.append('Approov-Token', approovToken)
-  } catch(error) {
+  } catch (error) {
     console.log(JSON.stringify(error))
   }
   return headers
@@ -362,7 +364,7 @@ get-content shapes-app\unprotected\index.html | %{$_ -replace "___APPROOV_SITE_K
 
 Now that we have completed the integration of hCaptcha with Approov into the unprotected Shapes web app, it is time to test it again.
 
-Reload the page in the browser (`ctrl + F5` on Windows or Linux, or `command + R` on Mac) and then click in the `SHAPES` button and this time, instead of a bad request, we should get a shape:
+Reload the page in the browser (`Ctrl + F5` on Windows or Linux, or `Command + Shift + R` on Mac) and then click the `SHAPES` button and this time, instead of a bad request, we should get a shape:
 
 <p>
   <img src="/readme-images/protected-v2-shape-page.png" width="480" title="Shapes protected web app Shape page">

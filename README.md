@@ -1,8 +1,8 @@
-# Approov Web Quickstart: hCaptcha
+# Approov Quickstart: Web - Javascript - hCaptcha
 
 This quickstart is for Javascript web apps that are using the hCaptcha service and that you wish to protect with Approov. If this is not your situation then please check if there is a more relevant quickstart guide available.
 
-This quickstart provides the basic steps for integrating Approov into your web app. A more detailed step-by-step guide using a [Shapes App Example] is also available.
+This quickstart provides the basic steps for integrating Approov into your web app. A more detailed step-by-step guide using a [Shapes App Example](./SHAPES-EXAMPLE.md) is also available.
 
 To follow this guide you should have received an onboarding email for a trial or paid Approov account.
 
@@ -27,26 +27,30 @@ Add this function which initializes the Approov SDK, gets an hCaptcha token and 
 ```js
 async function fetchApproovToken(api) {
   try {
-    // Try to fetch an Approov token using a previously set up Approov session and hCaptcha token
+    // Try to fetch an Approov token
     let approovToken = await Approov.fetchToken(api, {})
     return approovToken
-  } catch(error) {
-    // If Approov has not been initialized or the Approov session has expired, initialize and start a new one
-    await Approov.initializeSession({
-      approovHost: 'web-1.approovr.io',
-      approovSiteKey: 'your-Approov-site-key',
-      hcaptchaSiteKey: 'your-hCaptcha-site-key',
-    })
-    // Get a fresh hCaptcha token
-    const hcaptchaToken = await hcaptcha.execute({async: true})
-    // Fetch the Approov token
-    let approovToken = await Approov.fetchToken(api, {hcaptchaToken: hcaptchaToken})
-    return approovToken
+  } catch (error) {
+    if (error instanceof ApproovSessionError) {
+      // If Approov has not been initialized or the Approov session has expired, initialize and start a new one
+      await Approov.initializeSession({
+        approovHost: 'web-1.approovr.io',
+        approovSiteKey: 'your-Approov-site-key',
+        hcaptchaSiteKey: 'your-hCaptcha-site-key',
+      })
+      // Get a fresh hCaptcha token
+      const hcaptchaToken = await hcaptcha.execute({async: true})
+      // Fetch the Approov token
+      let approovToken = await Approov.fetchToken(api, {hcaptchaToken: hcaptchaToken})
+      return approovToken
+    } else {
+      throw error
+    }
   }
 }
 ```
 
-and customize it using your Approov site key and hCaptcha site key to replace `your-Approov-site-key` and `your-hCaptcha-site-key`, respectively.
+Customize the function using your Approov site key and hCaptcha site key to replace `your-Approov-site-key` and `your-hCaptcha-site-key`, respectively.
 
 Finally, modify the location in your code that generates the request headers to include an Approov token, for example change your function that includes an hCaptcha token in the headers, to fetch and include an Approov token instead:
 
@@ -59,7 +63,7 @@ async function addRequestHeaders() {
   try {
     let approovToken = await fetchApproovToken('your-API-domain')
     headers.append('Approov-Token', approovToken)
-  } catch(error) {
+  } catch (error) {
     console.log(JSON.stringify(error))
   }
   return headers
@@ -80,17 +84,20 @@ The `Approov.fetchToken` function may throw specific errors to provide additiona
     should be made.
 * `ApproovError` Any other error thrown during an Approov web SDK call.
 
+## SETTING UP API PROTECTION
+
+To actually protect your APIs there are some further steps:
+
+* The Approov service needs to be set up to provide tokens for your API.
+* Your API server needs to perform an Approov token check in addition to the steps in this frontend guide. Various [Backend API Quickstarts](https://approov.io/resource/quickstarts/#backend-api-quickstarts) are available to suit your particular situation depending on the backend technology used.
+
 ## APPROOV SERVICE SETUP
 
-To actually protect your APIs there are some further steps. The Approov service needs to be set up to provide tokens for your API. An [Approov Token](https://approov.io/docs/latest/approov-usage-documentation/#approov-tokens) is a short-lived cryptographically signed JWT (JSON Web Token) proving the authenticity of the call.
-
-Various [Backend API Quickstarts](https://approov.io/resource/quickstarts/#backend-api-quickstarts) are available to suit your particular situation depending on the backend technology used. You will need to implement this in addition to the steps in this frontend guide.
-
-These steps require access to the [Approov CLI](https://approov.io/docs/latest/approov-cli-tool-reference/), please follow the [Installation](https://approov.io/docs/latest/approov-installation/) instructions.
+The Approov service setup steps require access to the [Approov CLI](https://approov.io/docs/latest/approov-cli-tool-reference/), please follow the [Installation](https://approov.io/docs/latest/approov-installation/) instructions.
 
 ### ADDING API DOMAINS
 
-In order for Approov tokens to be added for particular API domains it is necessary to inform Approov about these. Execute the following command:
+In order for the Approov service to provide Approov tokens for particular API domains it is necessary to inform Approov about these. Execute the following command:
 
 ```
 approov api -add your.domain -allowWeb
@@ -111,6 +118,12 @@ You are now set up to request and receive Approov tokens.
 ## CHECKING IT WORKS
 
 Your Approov onboarding email should contain a link allowing you to access [Live Metrics Graphs](https://approov.io/docs/latest/approov-usage-documentation/#metrics-graphs). After you've run your web app with Approov integration you should be able to see the results in the live metrics within a minute or so.
+
+The Approov CLI can check Approov token validity and display the claims. Open the browser developers tools and from the network tab grab the Approov token from the request header `Approov-Token` and then check it with:
+
+```text
+approov token -check your-Approov-token
+```
 
 ## FURTHER OPTIONS
 

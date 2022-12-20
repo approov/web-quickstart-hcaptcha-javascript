@@ -4,14 +4,14 @@ This quickstart is for Javascript web apps that are using the hCaptcha service a
 
 This quickstart provides the basic steps for integrating Approov into your web app. A more detailed step-by-step guide using a [Shapes App Example](./SHAPES-EXAMPLE.md) is also available.
 
-To follow this guide you should have received an onboarding email for a trial or paid Approov account.
+To follow this guide you should have received an onboarding email for a [trial or paid Approov account](https://approov.io/signup).
 
 ## ADDING THE APPROOV WEB SDK
 
 The Approov integration is available on request by email to support@approov.io. Once you receive the Approov web SDK Javascript file `approov.js` copy it into your project and load it as part of your web app:
 
 ```html
-  <script type="module" src="./approov.js"></script>
+<script type="module" src="./approov.js"></script>
 ```
 
 ## USING THE APPROOV WEB SDK
@@ -64,7 +64,7 @@ async function addRequestHeaders() {
     let approovToken = await fetchApproovToken('your-API-domain')
     headers.append('Approov-Token', approovToken)
   } catch (error) {
-    console.log(JSON.stringify(error))
+    console.error(error)
   }
   return headers
 }

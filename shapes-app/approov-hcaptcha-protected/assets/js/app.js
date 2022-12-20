@@ -54,7 +54,7 @@ async function addRequestHeaders() {
     let approovToken = await fetchApproovToken(API_DOMAIN)
     headers.append('Approov-Token', approovToken)
   } catch (error) {
-    console.log(JSON.stringify(error))
+    console.error(error)
   }
   return headers
 }

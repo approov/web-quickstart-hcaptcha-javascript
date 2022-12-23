@@ -6,9 +6,6 @@ services:
   local:
     build:
       context: .
-      args:
-        APPROOV_SITE_KEY: "${APPROOV_SITE_KEY? Missing env var APPROOV_SITE_KEY}"
-        HCAPTCHA_SITE_KEY: "${HCAPTCHA_SITE_KEY? Missing env var HCAPTCHA_SITE_KEY}"
     image: ${DOCKER_IMAGE? Missing env var for DOCKER_IMAGE}
     volumes:
       - ./nginx/nginx-behind-traefik.conf:/etc/nginx/nginx.conf
@@ -16,7 +13,6 @@ services:
       - ./shapes-app:/usr/share/nginx/html
     ports:
       - 8000:8000 # needs to match the port in nginx/conf.d/local.conf
-
     networks:
       - default
 
@@ -24,9 +20,6 @@ services:
   dev:
     build:
       context: .
-      args:
-        APPROOV_SITE_KEY: "${APPROOV_SITE_KEY}"
-        HCAPTCHA_SITE_KEY: "${HCAPTCHA_SITE_KEY}"
     image: ${DOCKER_IMAGE? Missing env var for DOCKER_IMAGE}
     volumes:
       - ./nginx/nginx-behind-traefik.conf:/etc/nginx/nginx.conf
@@ -46,9 +39,6 @@ services:
   prod:
     build:
       context: .
-      args:
-        APPROOV_SITE_KEY: "${APPROOV_SITE_KEY}"
-        HCAPTCHA_SITE_KEY: "${HCAPTCHA_SITE_KEY}"
     image: ${DOCKER_IMAGE? Missing env var for DOCKER_IMAGE}
     restart: unless-stopped
     networks:

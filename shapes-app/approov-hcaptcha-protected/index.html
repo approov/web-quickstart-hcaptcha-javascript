@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#000000" />
     <link rel="shortcut icon" href="./assets/img/favicon.ico" />
     <title>Approov hCaptcha Quickstart</title>
-    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <script src="https://hcaptcha.com/1/api.js" defer></script>
     <link
       rel="apple-touch-icon"
       sizes="72x72"
@@ -169,10 +169,8 @@
                   <div class="py-4 px-8 mt-0">
                     <button
                       id="hello-button"
-                      class="h-captcha button-transition bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                      class="button-transition bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
                       type="button"
-                      data-sitekey="___HCAPTCHA_SITE_KEY___"
-                      data-callback='fetchHello'
                     >
                       Hello
                     </button>
@@ -181,10 +179,8 @@
                   <div class="py-4 px-8 mt-0">
                     <button
                       id="shape-button"
-                      class="h-captcha button-transition bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                      class="button-transition bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
                       type="button"
-                      data-sitekey="___HCAPTCHA_SITE_KEY___"
-                      data-callback='fetchShape'
                     >
                       Shape
                     </button>
@@ -282,5 +278,13 @@
       </div>
     </footer>
   </body>
-  <script type="text/javascript" src="./assets/js/app.js"></script>
+  <!-- <div class="h-captcha" data-sitekey="HCAPTCHA_SITE_KEY" data-size="invisible"></div> -->
+  <script type="module" src="/config.js"></script>
+  <script type='module'>
+    import { HCAPTCHA_SITE_KEY } from "/config.js"
+    let hcaptchaDiv = '<div class="h-captcha" data-sitekey="' + HCAPTCHA_SITE_KEY + '" data-size="invisible"></div>'
+    document.body.insertAdjacentHTML('beforeend', hcaptchaDiv)
+  </script>
+  <script type="module" src="./assets/js/approov.js"></script>
+  <script type="module" src="./assets/js/app.js"></script>
 </html>

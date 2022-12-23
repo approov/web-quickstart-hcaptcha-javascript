@@ -1,3 +1,6 @@
+
+import { SHAPES_API_KEY } from "/config.js"
+
 window.addEventListener('load', (event) => {
   const navbar = document.getElementById('toggle-navbar')
   navbar.addEventListener('click', (event) => toggleNavbar('example-collapse-navbar'))
@@ -12,6 +15,7 @@ function addRequestHeaders(hCaptchaToken) {
     resolve(
       new Headers({
         'Accept': 'application/json',
+        'Api-Key': SHAPES_API_KEY,
         'Hcaptcha-Token': hCaptchaToken
       })
     )
@@ -26,7 +30,7 @@ function makeApiRequest(path, hCaptchaToken) {
     .then(response => handleApiResponse(response))
 }
 
-function fetchHello(hCaptchaToken) {
+window.fetchHello = function fetchHello(hCaptchaToken) {
   makeApiRequest(API_VERSION + '/hello', hCaptchaToken)
     .then(data => {
       document.getElementById('start-app').classList.add("hidden")
@@ -35,7 +39,7 @@ function fetchHello(hCaptchaToken) {
     .catch(error => handleApiError('Fetch from ' + API_VERSION + '/hello failed', error))
 }
 
-function fetchShape(hCaptchaToken) {
+window.fetchShape = function fetchShape(hCaptchaToken) {
   makeApiRequest(API_VERSION + '/shapes', hCaptchaToken)
     .then(data => {
 

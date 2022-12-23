@@ -1,0 +1,11 @@
+// Approov service web attester domain
+export const APPROOV_ATTESTER_DOMAIN = 'web-1.approovr.io'
+
+// Approov Shapes example API key
+export const SHAPES_API_KEY = "yXClypapWNHIifHUWmBIyPFAm"
+
+// Approov web site key
+export const APPROOV_SITE_KEY = '___APPROOV_SITE_KEY___'
+
+// hCaptcha site key
+export const HCAPTCHA_SITE_KEY = '___HCAPTCHA_SITE_KEY___'

@@ -8,7 +8,13 @@ To follow this guide you should have received an onboarding email for a [trial o
 
 ## ADDING THE APPROOV WEB SDK
 
-The Approov integration is available on request by email to support@approov.io. Once you receive the Approov web SDK Javascript file `approov.js` copy it into your project and load it as part of your web app:
+The Approov web SDK can be downloaded using the [Approov command line tool](https://approov.io/docs/latest/approov-cli-tool-reference/) (see the [installation instructions](https://approov.io/docs/latest/approov-installation/)). Use the following command to download the latest web SDK package:
+
+```
+approov sdk -packageID approov.js.zip -getClientPackage approov.js.zip
+```
+
+This writes the latest available web SDK package to the `approov.js.zip` file (or any path that you specify). Unzip the file and copy the resulting Approov web SDK Javascript file, `approov.js`, into your project and load it as part of your web app:
 
 ```html
 <script type="module" src="./approov.js"></script>

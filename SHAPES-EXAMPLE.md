@@ -5,7 +5,6 @@ This quickstart is written specifically for web apps that you wish to protect wi
 ## WHAT YOU WILL NEED
 
 * Access to a trial or paid Approov account
-* The Approov web SDK, `approov.js` - please email support@approov.io to request this file
 * Be [registered](https://www.hcaptcha.com/signup-interstitial) with hCaptcha
 * The `approov` command line tool [installed](https://approov.io/docs/latest/approov-installation/) with access to your account
 * A web server or Docker installed
@@ -116,7 +115,13 @@ The changes below will add the required Approov token to the API request by firs
 
 ### Add and Load the Approov Web SDK
 
-In order to obtain a copy of the Approov web SDK please email a request to support@approov.io. When you receive your copy, place the file `approov.js` in the `shapes-app/unprotected/assets/js/` directory.
+The Approov web SDK can be downloaded using the [Approov command line tool](https://approov.io/docs/latest/approov-cli-tool-reference/) (see the [installation instructions](https://approov.io/docs/latest/approov-installation/)). Use the following command to download the latest web SDK package:
+
+```
+approov sdk -packageID approov.js.zip -getClientPackage approov.js.zip
+```
+
+This writes the latest available web SDK package to the `approov.js.zip` file (or any path that you specify). Unzip the file and place the resulting Approov web SDK Javascript file, `approov.js`, in the `shapes-app/unprotected/assets/js/` directory.
 
 Modify the `shapes-app/unprotected/index.html` file to load the Approov web SDK by adding this code after the HTML `</body>` tag:
 

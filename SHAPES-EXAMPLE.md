@@ -79,7 +79,7 @@ Now press the `SHAPE` button and you will see this:
 
 This contacts `https://shapes.approov.io/v1/shapes` to get a random shape.
 
-The subsequent steps of this guide take you through the steps to add both Fingerprint and Approov to the Shapes web app. If the Shapes web app were already making use of Fingerprint to bind browser sessions to known users, the necessary steps would be nearly identical.
+The subsequent steps of this guide take you through the steps to add both hCaptcha and Approov to the Shapes web app. If the Shapes web app were already making use of hCaptcha to bind browser sessions to known users, the necessary steps would be nearly identical.
 
 ## MODIFY THE WEB APP TO USE APPROOV WITH HCAPTCHA
 
